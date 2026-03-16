@@ -36,15 +36,40 @@ def simple_calculator(operation: str, num1: float, num2: float) -> float:
             raise ValueError("Cannot divide by zero.")
     else:
         raise ValueError("Invalid operation. Please choose from 'add', 'subtract', 'multiply', or 'divide'.")
+def sanitation_int(prompt: str) -> float:
+    """Keeps asking until the user enters a valid number."""
+    while True:
+        user_input = input(prompt)
+        try:
+            # Tries to turn the string into a decimal number
+            return float(user_input) 
+        except ValueError:
+            # If it fails (e.g., they typed "apple"), it catches the error and loops again
+            print("That's not a valid number. Try again.")
+
+def sanitation_str(prompt: str) -> str:
+    """Keeps asking until the user enters a valid math operation."""
+    valid_operations = ["add", "subtract", "divide", "multiply"]
+    
+    while True:
+        # Ask for input, remove extra spaces, and make it lowercase
+        user_input = input(prompt).strip().lower()
+        
+        # Check if their input is in our list of valid words
+        if user_input in valid_operations:
+            return user_input
+        else:
+            print("Invalid. Please type add, subtract, divide, or multiply.")
+    
 
 def main():
     
     print(f"===== Simple Calculator =====")
 
     # Ask the user for sample input    
-    num1 = float(input("Enter the first number: "))
-    num2 = float(input("Enter the second number: "))
-    operation = input("Enter the operation (add, subtract, multiply, divide): ").strip().lower()
+    num1 = sanitation_int("Enter the first number: ")
+    num2 = sanitation_int("Enter the second number: ")
+    operation = sanitation_str("Enter the operation (add, subtract, multiply, divide): ").strip().lower()
 
     # Perform the calculation and display the result
     result = simple_calculator(operation, num1, num2)
